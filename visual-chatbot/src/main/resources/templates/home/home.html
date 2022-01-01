@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Visual Chatbot</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="/images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js'></script>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <!--===============================================================================================-->
+    <link href='https://use.fontawesome.com/releases/v5.7.2/css/all.css' rel='stylesheet'>
+</head>
+<body oncontextmenu='return false' class='snippet-body'>
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+<!--                <div class="row container d-flex justify-content-center">-->
+<!--                <div class="col-md-6">-->
+                <form id="chatForm" name="chatForm" class="form-horizontal" role="form" onload="focusFinalAnswer()" method="POST" th:action="@{/chat}" th:object="${chatMessages}">
+                    <div class="card card-bordered">
+                        <div class="card-header">
+                            <h4 class="card-title"><strong>Visual/Voice/Text Communication</strong></h4> <a th:href="@{/logout}" data-abc="true" class="btn btn-xs btn-secondary" >Sign Out</a>
+                        </div>
+                        <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
+
+                            <div th:each="message : ${chatMessages.messages}">
+                                <div class="media media-chat media-chat-forward" th:if="${message.chatType == 'A'}">
+                                    <img class="avatar" src="/images/chatbot-4.jpeg" alt="...">
+                                    <div class="media-body">
+                                        <p><span th:text="${message.chatMessage}"></span></p>
+                                    </div>
+                                </div>
+                                <div class="media media-chat media-chat-reverse" th:if="${message.chatType == 'Q'}">
+                                    <div class="media-body">
+                                        <p><span th:text="${message.chatMessage}"></span></p>
+                                    </div>
+                                </div>
+                                <div class="media media-chat media-chat-forward" id="answerBlock" th:if="${message.chatType == 'FA'}">
+                                    <img class="avatar" src="/images/chatbot-4.jpeg" alt="...">
+                                    <div class="media-body">
+                                        <p><span th:text="${message.chatMessage}"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                                <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                            </div>
+                            <div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;">
+                                <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div>
+                            </div>
+                        </div>
+                        <div class="publisher bt-1 border-light">
+                            <img class="avatar avatar-xs" src="/images/chatbot-4.jpeg" alt="...">
+                            <input class="publisher-input" type="text" id="question" name="question" placeholder="Write something">
+                            <span class="publisher-btn file-group">
+                                <a class="publisher-btn" href="#" data-abc="true">
+                                    <i class="fa fa-paperclip file-browser"></i>
+                                </a>
+                                <input type="file">
+                            </span>
+                            <a class="publisher-btn text-info" href="#" onclick="submitform(this)" data-abc="true">
+                                <i class="fa fa-paper-plane"></i>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+<!--                </div>-->
+<!--                </div>-->
+                <script type="text/javascript">
+
+                    function focusFinalAnswer() {
+                        var answerBlockDiv = document.getElementById("answerBlock");
+                        answerBlockDiv.scrollTop = answerBlockDiv.scrollHeight;
+                        alert(answerBlockDiv.scrollTop);
+
+                        $("answerBlock").animate({ scrollTop: $('answerBlock').prop("scrollHeight")}, 0);
+                    }
+
+                    function submitform(_anchorComp) {
+
+                       if (document.getElementById('question').value == '')
+                        return;
+
+                       document.getElementById('chatForm').submit();
+                       document.getElementById('question').value = ''
+                       _anchorComp.disabled = true;
+                   }
+               </script>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
