@@ -25,14 +25,14 @@
             <div class="wrap-login100">
 <!--                <div class="row container d-flex justify-content-center">-->
 <!--                <div class="col-md-6">-->
-                <form id="chatForm" name="chatForm" class="form-horizontal" role="form" onload="focusFinalAnswer()" method="POST" th:action="@{/chat}" th:object="${chatMessages}">
+                <form id="chatForm" name="chatForm" class="form-horizontal" role="form" method="POST" th:action="@{/chat}" th:object="${chatMessages}" enctype="multipart/form-data">
                     <div class="card card-bordered">
                         <div class="card-header">
                             <h4 class="card-title"><strong>Visual/Voice/Text Communication</strong></h4> <a th:href="@{/logout}" data-abc="true" class="btn btn-xs btn-secondary" >Sign Out</a>
                         </div>
-                        <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
+                        <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:500px !important;">
 
-                            <div th:each="message : ${chatMessages.messages}">
+                            <div th:each="message : ${chatMessages.messages}" th:id="${message.chatType == 'FA'} ? 'answer-to-focus-id' : ''" th:class="${message.chatType == 'FA'} ? 'answer-to-focus' : ''">
                                 <div class="media media-chat media-chat-forward" th:if="${message.chatType == 'A'}">
                                     <img class="avatar" src="/images/chatbot-4.jpeg" alt="...">
                                     <div class="media-body">
@@ -44,10 +44,15 @@
                                         <p><span th:text="${message.chatMessage}"></span></p>
                                     </div>
                                 </div>
+                                <div class="media media-chat media-chat-reverse" th:if="${message.chatType == 'MQ'}">
+                                    <div class="media-body">
+                                        <p><span>Processing: </span><img width="100px" height="100px" class="img-thumbnail" th:src="${message.chatMessage}" th:alt="..."></p>
+                                    </div>
+                                </div>
                                 <div class="media media-chat media-chat-forward" id="answerBlock" th:if="${message.chatType == 'FA'}">
                                     <img class="avatar" src="/images/chatbot-4.jpeg" alt="...">
                                     <div class="media-body">
-                                        <p><span th:text="${message.chatMessage}"></span></p>
+                                        <p th:utext="${#strings.replace(message.chatMessage, '\n','&lt;br /&gt;')}" ></p>
                                     </div>
                                 </div>
                             </div>
@@ -60,14 +65,12 @@
                         </div>
                         <div class="publisher bt-1 border-light">
                             <img class="avatar avatar-xs" src="/images/chatbot-4.jpeg" alt="...">
-                            <input class="publisher-input" type="text" id="question" name="question" placeholder="Write something">
+                            <input class="publisher-input" type="text" id="question" name="question" placeholder="Write something"  autocomplete="off" />
                             <span class="publisher-btn file-group">
-                                <a class="publisher-btn" href="#" data-abc="true">
-                                    <i class="fa fa-paperclip file-browser"></i>
-                                </a>
-                                <input type="file">
+                                <input type="file" name="snapshot" accept="image/png, image/jpeg" onchange="uploadFile(this)" />
+                                <i class="fa fa-paperclip file-browser"></i>
                             </span>
-                            <a class="publisher-btn text-info" href="#" onclick="submitform(this)" data-abc="true">
+                            <a class="publisher-btn text-info" href="#" id="submitButton" onclick="submitform(this)" data-abc="true">
                                 <i class="fa fa-paper-plane"></i>
                             </a>
                         </div>
@@ -77,22 +80,31 @@
 <!--                </div>-->
                 <script type="text/javascript">
 
-                    function focusFinalAnswer() {
-                        var answerBlockDiv = document.getElementById("answerBlock");
-                        answerBlockDiv.scrollTop = answerBlockDiv.scrollHeight;
-                        alert(answerBlockDiv.scrollTop);
+                    $(document).ready(function() {
+                        document.getElementById("answer-to-focus-id").scrollIntoView();
+                        document.getElementById("question").focus();
 
-                        $("answerBlock").animate({ scrollTop: $('answerBlock').prop("scrollHeight")}, 0);
-                    }
+                        var finalAnswer = document.getElementById("final-answer-text").innerText;
+                        alert(document.getElementById("final-answer-text").parent);
+                        document.getElementById("final-answer-text").innerText =  finalAnswer.replaceAll("\\n", '<br />');
+                    });
 
                     function submitform(_anchorComp) {
-
                        if (document.getElementById('question').value == '')
                         return;
 
-                       document.getElementById('chatForm').submit();
-                       document.getElementById('question').value = ''
                        _anchorComp.disabled = true;
+                       document.getElementById('chatForm').submit();
+                       document.getElementById('chatForm').disabled = true;
+                       document.getElementById('question').value = '';
+                   }
+
+                    function uploadFile(_fileComp) {
+
+                       document.getElementById('submitButton').disabled = ''
+                       document.getElementById('chatForm').submit();
+                       fileComp.disabled = true;
+                       document.getElementById('chatForm').disabled = true;
                    }
                </script>
             </div>
