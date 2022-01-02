@@ -56,28 +56,33 @@ public class VisionApiClient {
 
         StringBuilder labelsDetected = new StringBuilder();
 
-        if (response.getWebDetection().getBestGuessLabelsCount() > 0) {
-            labelsDetected.append("Best Web match ").append(response.getWebDetection().getBestGuessLabels(0).getLabel()).append("\n");
+        if (response.getLandmarkAnnotationsCount() > 0) {
+            labelsDetected.append("Its a Landmark").append("\\n");
+            response.getLandmarkAnnotationsList().stream().limit(5).map(l -> l.getDescription()).forEach(ans -> labelsDetected.append(ans).append("\\n"));
         }
-        if (response.getLabelAnnotationsCount() > 0) {
-            labelsDetected.append("Best Label match ");
-            response.getLabelAnnotationsList().stream().limit(3).map(l -> l.getDescription()).forEach(ans -> labelsDetected.append(ans).append("\n"));
+
+        if (response.getLogoAnnotationsCount() > 0) {
+            labelsDetected.append("Its a Logo").append("\\n");
+            response.getLogoAnnotationsList().stream().limit(3).map(l -> l.getDescription()).forEach(ans -> labelsDetected.append(ans).append("\\n"));
         }
+
         if (response.getTextAnnotationsCount() > 0) {
-            labelsDetected.append("Best Text match ");
+            labelsDetected.append("Its has text").append("\\n");
             response.getTextAnnotationsList().stream().filter(l -> l.getLocale() != null).map(l -> l.getDescription()).forEach(ans -> labelsDetected.append(ans).append("\n"));
         }
-        if (response.getLandmarkAnnotationsCount() > 0) {
-            labelsDetected.append("Best Landmark match ");
-            response.getLandmarkAnnotationsList().stream().limit(5).map(l -> l.getDescription()).forEach(ans -> labelsDetected.append(ans).append("\n"));
+
+        if (labelsDetected.length() == 0 && response.getWebDetection().getBestGuessLabelsCount() > 0) {
+            labelsDetected.append("Its a ").append(response.getWebDetection().getBestGuessLabels(0).getLabel()).append("\\n");
         }
+
         if (response.getFaceAnnotationsCount() > 0) {
-            labelsDetected.append("Best Face match ");
+            labelsDetected.append("Identified Face").append("\\n");
             response.getFaceAnnotationsList().stream().limit(3).map(l -> l.getAngerLikelihood().name() + " " + l.getJoyLikelihood().name()).forEach(ans -> labelsDetected.append(ans).append("\n"));
         }
-        if (response.getLogoAnnotationsCount() > 0) {
-            labelsDetected.append("Best Logo match ");
-            response.getLogoAnnotationsList().stream().limit(3).map(l -> l.getDescription()).forEach(ans -> labelsDetected.append(ans).append("\n"));
+
+        if (response.getLabelAnnotationsCount() > 0) {
+            labelsDetected.append("It also called as ").append("\\n");
+            response.getLabelAnnotationsList().stream().limit(3).map(l -> l.getDescription()).forEach(ans -> labelsDetected.append(ans).append("\\n"));
         }
         return labelsDetected.toString();
     }

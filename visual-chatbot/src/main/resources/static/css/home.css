@@ -4,6 +4,7 @@
 
 .card {
     border: 0;
+    width: 750px;
     border-radius: 0px;
     -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.03);
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.03);
@@ -300,7 +301,6 @@ textarea {
 .file-group input[type="file"] {
     position: absolute;
     opacity: 0;
-    z-index: -1;
     width: 20px
 }
 
