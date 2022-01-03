@@ -6,14 +6,24 @@ A visual chatbot is an application that is able to interpret images shared in re
 
 For Example, when the user opens the app and ask the chatbot about the item in front of camera, the chatbot recognizes the images, translates images to texts and translates text to speech and then formulates a reply and provides it to the user in the form of speech. User can ask more question about the item like usage, expiration, etc.
 
+MVP will be Visual and Text based Search using chatBot 
+
+The project is done using SpringBoot- Rest, Google DialogFlow API, Google Vision API
+FrontEnd - Spring ThymeLeaf and BootStrap 
+
+Future Enhancements will include google Search engine, voice Commands and Camera Accessability to make it a Visual ChatBot.
+
+
 When you click on the visual chatBot App 
 
-![image](https://user-images.githubusercontent.com/92755620/146881520-642bd092-3135-4728-a746-affc7ce08279.png)
+![image](https://user-images.githubusercontent.com/92755620/147894044-57c2a7af-2fc1-4094-9b3c-615d8b787ecd.png)
+
 
 IF YOU CLICK ON THE SIGNUP BUTTON
 
 
-![image](https://user-images.githubusercontent.com/92755620/146881663-4b391194-caed-4d46-a279-c89d49df0ae1.png)
+![image](https://user-images.githubusercontent.com/92755620/147894062-d4aeabc4-aa03-4f5c-85b4-e44d8f579c27.png)
+
 
 VISUAL CHATBOT
 
