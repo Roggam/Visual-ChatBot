@@ -25,6 +25,10 @@ IF YOU CLICK ON THE SIGNUP BUTTON
 ![image](https://user-images.githubusercontent.com/92755620/147894062-d4aeabc4-aa03-4f5c-85b4-e44d8f579c27.png)
 
 
-VISUAL CHATBOT
+VISUAL CHATBOT FINAL OUTPUT
 
-![image](https://user-images.githubusercontent.com/92755620/146881792-21f77778-3d08-4a99-aa71-799182987aeb.png)
+
+https://user-images.githubusercontent.com/92755620/149417454-a480fb62-dc1c-44f2-a901-fb9cb03e9272.mp4
+
+
+
